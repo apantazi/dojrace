@@ -83,3 +83,12 @@ get_doj_race_cats <- function(geography = "block", state, county, geometry = FAL
   out <- out[, vars_to_keep]
   return(out)
 }
+
+#' Check if a Census API Key is set
+#'
+#' @return Logical TRUE if set, FALSE if not
+#' @export
+is_census_key_set <- function() {
+  key <- Sys.getenv("CENSUS_API_KEY", unset = NA)
+  !is.na(key) && nchar(key) > 0
+}

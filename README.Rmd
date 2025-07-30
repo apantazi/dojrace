@@ -42,7 +42,16 @@ devtools::install_github("apantazi/dojrace")
 You’ll also need an API key from the U.S. Census Bureau and to set it with [tidycensus](https://github.com/walkerke/tidycensus):
 
 ```{r census api}
-tidycensus::census_api_key("YOUR_API_KEY", install = TRUE)
+library(dojrace)
+if (!dojrace::is_census_key_set()) {
+  key <- readline(prompt = "Enter your Census API key (get one at https://api.census.gov/data/key_signup.html): ")
+  if (nchar(key) > 0) {
+    tidycensus::census_api_key(key, install = TRUE)
+    message("API key installed. Restart R or run readRenviron('~/.Renviron') to use now.")
+  } else {
+    message("No API key entered. You may experience rate limits or errors.")
+  }
+}
 ```
 
 ## Example
@@ -50,7 +59,6 @@ tidycensus::census_api_key("YOUR_API_KEY", install = TRUE)
 This example computes DOJ/OMB racial categories for Duval County census blocks:
 
 ```{r example}
-library(dojrace)
 duval_blocks <- get_doj_race_cats(
   geography = "block",
   state = "FL",

@@ -1,0 +1,20 @@
+Package: dojrace
+Type: Package
+Title: DOJ/OMB Race Category Aggregation for Census Data
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Andrew", "Pantazi",
+      email = "andrew.pantazi@gmail.com",
+      role = c("aut", "cre")
+    )
+  )
+Description: Provides helpers to aggregate 2020 Decennial Census data into DOJ and OMB-compliant racial categories, following the methodology used for Voting Rights Act enforcement. Ensures that individuals who select multiple races are counted in every racial group they identify with. Designed for voting rights analysis, demographic research, and journalism.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    tidycensus,
+    dplyr,
+    sf
+RoxygenNote: 7.3.2

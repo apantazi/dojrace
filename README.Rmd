@@ -1,0 +1,72 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# dojrace
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+## What is dojrace?
+
+**dojrace** is a helper package for aggregating U.S. Census 2020 data into Department of Justice (DOJ) and Office of Management and Budget (OMB) racial categories using `tidycensus`.
+
+### Why does this exist?
+
+To conform to the DOJ & OMB definitions of racial categories. **If someone picks a racial category, they are counted in that group—even if they pick multiple racial categories.**\
+- This means people may be double-counted.\
+- “White” here means non-Hispanic white only.\
+- This approach matches how the [DOJ and OMB](https://www.justice.gov/archives/opa/press-release/file/1429486/dl?inline=) define groups for enforcing the Voting Rights Act. \
+- This allows voting strength and demographic analysis *without* excluding multiracial people, so that every person is reflected in the groups they select. \
+- For more information, read [this story](https://jaxtrib.org/2021/12/16/jacksonvilles-redistricting-plans-ignore-federal-guidelines/) about a city that did not follow the OMB definitions.
+
+## Installation
+
+You can install the development version of dojrace from GitHub with:
+
+```{r installation}
+# install.packages("devtools")
+devtools::install_github("apantazi/dojrace")
+```
+
+You’ll also need an API key from the U.S. Census Bureau and to set it with [tidycensus](https://github.com/walkerke/tidycensus):
+
+```{r census api}
+tidycensus::census_api_key("YOUR_API_KEY", install = TRUE)
+```
+
+## Example
+
+This example computes DOJ/OMB racial categories for Duval County census blocks:
+
+```{r example}
+library(dojrace)
+duval_blocks <- get_doj_race_cats(
+  geography = "block",
+  state = "FL",
+  county = "Duval"
+)
+head(duval_blocks)
+```
+
+## What makes this different?
+
+Most “race” aggregations from the Census are mutually exclusive and undercount multiracial residents.\
+**dojrace** ensures every person is counted for every race they select, matching DOJ guidance, so you can analyze potential voting strength and compliance with the Voting Rights Act.
+
+See [DOJ/OMB methodology](https://www.justice.gov/archives/opa/press-release/file/1429486/dl?inline=) for technical guidance.
+
+```{r sessioninfo, echo=FALSE}
+sessionInfo()
+```
+
